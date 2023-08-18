@@ -1,0 +1,6 @@
+set terminal pdf
+set output  "d1_plot.pdf"
+set title "COVID rise in India"
+set xlabel "Time "
+set ylabel "Total cases"
+plot "com2.dat" with linespoints

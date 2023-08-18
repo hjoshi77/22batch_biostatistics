@@ -1,0 +1,108 @@
+
+chmod g+r runbatch_stampede -R
+y = a0*exp(-a1*((x-a2)^2))
+SED command to make spaces to column "or" row 
+sed -e 's/\s\+/\n/g' index1.dat >index2.dat
+
+partiacl match OH change 1 string after that
+1,$s/\(OH\).\{1\}/\O  /g
+
+Add bond in fron of each line 
+sed -i -e 's/^/bond /' out_file
+
+Add & to the end of each line
+sed -i -e 's/$/ \&/' script_image.sh
+#######
+Mergings image files 
+#!/bin/bash                                                                                                                                                                         
+for i in {00000..00347}                                                                                                                                                             
+do                                                                                                                                                                                  
+convert /usr/tmp/c4_side.${i}.ppm c4_top.${i}.ppm +append -background white -background white -splice 20x0+669+0 -resize 1420x834 out.${i}.png                                      
+done                                                                                                                                                                                
+ffmpeg -framerate 30 -i out.%5d.png -c:v libx264 -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -pix_fmt yuv420p -crf 30 c4_2.mp4     
+$$$$$$$$$$$$$$$$$$$$$$$
+
+ffmpeg -framerate 40 -i step0.%05d.ppm -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -pix_fmt yuv420p dna_arbd_allatom.mp4
+
+tail -n +2 vector.dat |awk '{print $(NF)=++i*.1 FS ($2*$3)/81}' >aph.dat
+
+tail -25 output/equil_k0.1.xst  |awk '{sum+=$10} END{print sum/25;}
+
+
+find /data/server7/hjoshi/projects/stress/block_copolymer/ -name psf2top.py
+
+Namd
+nice /home/wilsja/namd/NAMD_Git-2017-10-13_Linux-x86_64-multicore-CUDA/namd2 +idlepoll +p16 +devices 0 npt.namd
+
+gromacs 
+
+gmx trjconv -f md_0_1.trr -s md_0_1.tpr -n ../build/index.ndx -pbc mol -ur compact -center -o cntr_1.trr
+gmx trjcat -f ../sim/md_0_{1..36}.trr -n ../../build/index.ndx -dt 200  -o 36ns.xtc
+
+
+PBC UNWRAP
+ gmx trjconv -f ${dcd} -s ${reference} -pbc whole -ur compact -o ${temp_xtc}/temp1.${dcd_name}.xtc
+ gmx trjconv -f ${temp_xtc}/temp1.${dcd_name}.xtc -s ${reference} -pbc nojump -o ${temp_xtc}/temp2.${dcd_name}.xtc
+ gmx trjconv -f ${temp_xtc}/temp2.${dcd_name}.xtc -s ${reference} -pbc mol -center -o ${temp_xtc}/${dcd_name}.xtc 
+
+editconf_LS -f md_4.gro -resnr 1 -o md_4_renum.gro 
+gmx eneronv -f ../sim/step7_{271..370}.edr -o united.edr -o united.edr 
+gmx_LS grompp -f md_ls.mdp -c ../md_0_28.gro -p /data/server7/hjoshi/projects/stress/block_copolymer/system1/discarded/new/one_start/convert_tpr.test/top1.top -o ls.tpr -n index.ndx
+gmx_LS grompp -f md_ls.mdp -c ../md_0_1.gro -p ../../topol.top -o ls.tpr -n ../../index.ndx
+
+
+awk -f script_awk rmsd{1..25}.dat >test.dat 
+awk scripts  "script_awk"
+
+{ if (FNR==1) file++
+  for (i=1;i<=NF;i++) {
+    sum[FNR" "i]+=$i
+    count[FNR" "i]++
+    data[file" "FNR" "i]=$i
+  }
+}END{
+  for (i=1;i<=FNR;i++) {
+    for (j=1;j<=NF;j++) {
+      avg[i" "j]=sum[i" "j]/count[i" "j]
+    }
+  }
+  for (f=1;f<=file;f++) {
+    for (i=1;i<=FNR;i++) {
+      for (j=1;j<=NF;j++) {
+        tmp[i" "j]+=(data[f" "i" "j]-avg[i" "j])*(data[f" "i" "j]-avg[i" "j]);
+      }
+    }
+  }
+  for (i=1;i<=FNR;i++) {
+    for (j=1;j<=NF;j++) {
+      printf avg[i" "j]" "
+    }
+    for (j=1;j<=NF;j++) {
+      printf sqrt(tmp[i" "j]/count[i" "j])" "
+    }
+    printf "\n"
+  }
+}
+
+Awk commands to convert row to column
+ awk '{for (i=1;i<=NF;i++) print $i}' 2.dat >22.dat
+
+** AWK change column to row**
+
+awk 'BEGIN { ORS = " " } { print }' id2.dat 
+
+concatenate two column of a file 
+
+pr -mts' ' hbonds-143996.dat z_143996.dat >z_hbonds.dat
+sort -k1 -n z_hbonds.dat >z_hbonds_sort.dat 
+BW PIN
+4$8y?50*
+
+tmux att -t xrac
+
+grep "ATOM \(C35\|H49\)" HPC_c3h7_22HAN2020.str.org 
+inkscape -C -e merged/.png merged/.svg
+sed -n -e '315,511p' check_for_dihedral/EPM.psf 
+sed -i -e  '/TER/d' 6hb_amber.pdb
+
+rsync -avr --exclude='*.BAK' --exclude='*.dcd' --exclude='*.ppm' /data/server7/hjoshi /run/media/hjoshi/hjoshi/uiuc_backup/server7/

@@ -1,0 +1,6 @@
+set terminal pdf
+set output  "new_cases.pdf"
+set title "COVID data in India"
+set xlabel "Time "
+set ylabel "New cases"
+plot "cases_per_day.dat" with linespoints
