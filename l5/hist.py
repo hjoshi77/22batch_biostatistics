@@ -13,7 +13,7 @@ l=len(mat0[:,0])
  
 # Creating histogram
 fig, ax = plt.subplots()
-ax.hist(mat0[:,1],bins=n_bins,density=False)
+ax.hist(mat0[:,1],bins=n_bins,density=True,edgecolor = 'black')
 ax.set_xlabel("Angle ($^{\circ}$)",fontsize=16,fontweight='bold')
 ax.set_ylabel("Probability",fontsize=16,fontweight='bold')
 
