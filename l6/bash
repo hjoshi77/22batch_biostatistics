@@ -1,0 +1,250 @@
+# -*- mode: sh -*-
+
+# ------ # System Applications # ------ #
+
+## modules
+export LMOD_SHORT_TIME=1
+#module load mendeley
+#module load vmd/1.9.2		# want this for catdcd, but superceded with Max's VMD
+export PATH=/software/mendeley-1.13.4-x86_64/mendeleydesktop-1.13.4-linux-x86_64/bin:$PATH
+
+## CUDA
+#module load cuda-toolkit/8.0
+export CUDA_PATH=/software/cuda-toolkit-8.0
+
+
+## Anaconda
+##export PATH="$PATH:/home/cmaffeo2/anaconda2/bin:$PATH" # you might want to install your own copy of anaconda! 
+
+## Texlive
+export TEXLIVE_INSTALL_PREFIX=/data/server5/cmaffeo2/texlive
+INFOPATH=$TEXLIVE_INSTALL_PREFIX/2016/texmf-dist/doc/info:"$INFOPATH"
+MANPATH=$TEXLIVE_INSTALL_PREFIX/2016/texmf-dist/doc/man:"$MANPATH"
+PATH=$TEXLIVE_INSTALL_PREFIX/2016/bin/x86_64-linux:"$PATH"
+
+## Simulation packages
+alias 21='cd /Users/himanshu/git/xrac2021'
+alias namd2='/home/cmaffeo2/development/namd-bin/NAMD_2.12_Linux-x86_64-multicore-CUDA/namd2'
+namd () {
+    /home/cmaffeo2/development/namd-bin/NAMD_2.12_Linux-x86_64-multicore-CUDA/namd2 +ppn "$2" +netpoll +idlepoll +devices "$3" "$1"
+}
+
+alias arbd='/home/cmaffeo2/development/cuda/arbd.dev/src/arbd'
+alias cadnano='/usr/bin/python ~cmaffeo2/development/cadnano/cadnano2/main.py'
+##alias vmd ='LD_LIBRARY_PATH="/usr/lib64/nvidia/:${LD_LIBRARY_PATH}" vmd'
+## backup vmd ~wilsja/bin/vmd
+
+LD_LIBRARY_PATH="/usr/lib64/nvidia/:${LD_LIBRARY_PATH}"
+
+# ---- # Bash Security Settings # ---- #
+
+## File settings
+umask 0022
+
+## Bash History
+# http://www.dufault.info/blog/logging-all-bash-commands-to-history-and-keeping-people-from-deletingemptying-it/
+## append only: chattr +a .bash_history
+## maybe in /etc/profile or /etc/bashrc
+export HISTCONTROL=ignoreboth
+export HISTSIZE=50000
+export HISTFILESIZE=500000
+export HISTTIMEFORMAT=%c
+
+## Send tab title othe current path
+PROMPT_COMMAND='echo -ne "\033]0;$(basename "$(pwd -P)")\007"'
+# \033]0; is title+icon, \033]1; is icon, \033]2; is title
+# \007 seems neccesary... I don't know why
+case $HOSTNAME in
+    YOURUSUALHOST*) PS1='\[\e[0;34m\][\j]\[\e[0;34m\] \w\[\e[0;m\] ';;
+    *)      PS1='\[\e[0;34m\][\j]\[\e[0;32m\] $HOSTNAME\[\e[0;34m\] \w\[\e[0;m\] ';;
+esac
+
+if [ "$BASH" ]; then
+    PROMPT_COMMAND="history -a;$PROMPT_COMMAND";
+    readonly PROMPT_COMMAND
+    readonly HISTSIZE
+    readonly HISTFILE
+    readonly HOME
+    readonly HISTIGNORE
+    readonly HISTCONTROL
+fi
+
+## aliases to stop you from accidental data loss, etc.
+alias cp='cp -i'
+alias rm='rm -i'		# override with -I
+alias mv='mv -i'
+alias killall='killall -i'
+
+## Important enough to be here
+alias e='emacs -nw'
+
+# ---- # Bash Interface # ---- #
+# export TERM="xterm-256color"
+PATH="$HOME/bin:$PATH"
+export EDITOR="vim"
+#export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
+
+## Shell Options
+shopt -s extglob  ;# adds regexp-like globs (see man pages)
+# shopt -s failglob ;# makes it so `echo nonExistentGlob.*` fails 
+
+# set -C ;# If  set,  bash  does not overwrite an existing file with
+#         #  the >, >&, and <> redirection operators.   This  may  be
+#         #  overridden when creating output files by using the redi-
+#         #  rection operator >| instead of >.
+
+set -b ;# Report  the status of terminated background jobs immediately,
+        #  rather than before the next primary prompt.
+
+set +H  # Don't do annoying history expansions of exclamation points
+
+if [[ -o emacs || -o vi ]]; then
+    bind '"":history-search-backward'
+    bind '"":history-search-forward'
+    bind '"[5~":history-search-backward'
+    bind '"[6~":history-search-forward'
+fi
+
+## Aliases for convenience
+alias lls="ls -lht"
+#alias tensortool="ls /data/server7/hjoshi//gromacs/mdstress-library/tensortools/tensortools"
+alias o='open'
+alias vmd='vmd -nt'
+alias vmdd="vmd -dispdev text"
+
+alias echo='echo -e'
+alias pd='pushd'
+alias lns='ln -s'
+alias mkdir='mkdir -p'
+alias bc="bc -ql $HOME/.extensions.bc"
+alias rsync='rsync -avP -e ssh'
+alias nsync='ionice -c3 rsync -aH --info=progress2 -h -e ssh' # nice data copying
+
+#alias ls='ls --color=auto'
+alias grep='grep -i --color=auto'
+alias tree='tree -FC'
+alias less='less -R'
+
+#-----# Network #-----#
+for i in {2..16}; do
+    eval "export work$i='$USER@tbgl-work$i.physics.illinois.edu'"
+    eval "alias work$i='ssh \${work$i}'"
+done
+for i in 4 5 6; do
+    eval "export server$i='$USER@tbgl-server$i.physics.illinois.edu'"
+    eval "alias server$i='ssh \${server$i}'"
+done
+for i in "" 2; do
+    eval "export gpu$i='$USER@tbgl-work-gpu$i.physics.illinois.edu'"
+    eval "alias gpu$i='ssh \${gpu$i}'"
+done
+
+export anton="$USER@anton2.psc.edu"
+export comet="$USER@comet.sdsc.xsede.org"
+export bw="$USER@bw.ncsa.illinois.edu"
+export titan="$USER@titan.ccs.ornl.gov"
+export golub="$USER@golubh1.campuscluster.illinois.edu"
+export stampede="$USER@stampede2.tacc.utexas.edu"
+export ranch="$USER@ranch.tacc.utexas.edu"
+
+alias anton='ssh $anton'
+alias bw='ssh $bw'
+alias titan='ssh $titan'
+alias comet='ssh $comet'
+alias golub='ssh $golub'
+alias stampede='ssh $stampede'
+alias ranch='ssh $ranch'
+
+export bridges="$USER@bridges.psc.xsede.org"
+alias bridges='ssh -p 2222 $bridges'
+alias bridges-rsync="rsync -e ssh\ -p\ 2222"
+
+# --- # Settings for programs # ---- #
+export SVN=https://subversion.engr.illinois.edu/svn/tbgl/trunk
+export SVNROOT=$SVN
+export UNITSFILE=$HOME/.units
+
+alias j='ls -ltr'
+alias d='du -sh'
+alias c='clear'
+alias q='exit'
+PS1='[\u@\h \W]\$ '
+alias w='cd /data/server7/hjoshi/'
+export w1='/data/server7/hjoshi/'
+#source /data/server7/hjoshi/softwares/amber16/amber.sh
+#source /data/server7/hjoshi/gromacs/gmx5vars.sh
+# https://subversion.engr.illinois.edu/svn/tbgl/trunk
+alias lap='ssh mahi@192.17.210.50'
+alias x='xmgrace'
+alias xsede='ssh joshi@login.xsede.org'
+alias sb='source ~/.bashrc'
+
+alias j11='ssh joshi@129.114.104.199'
+alias j22='ssh joshi@149.165.156.199'
+alias j33='ssh joshi@149.165.168.72'
+alias j1='ssh joshi@149.165.169.132'
+alias j2='ssh joshi@149.165.168.30'
+alias j3='ssh joshi@149.165.170.3'
+alias j4='ssh joshi@149.165.169.247'
+alias j5='ssh joshi@149.165.169.145'
+alias j6='ssh joshi@149.165.157.240'
+alias j7='ssh joshi@149.165.168.8'
+alias j8='ssh joshi@149.165.169.188'
+alias bw='ssh joshi1@bw.ncsa.illinois.edu'
+alias j_1='ssh joshi@129.114.17.195'
+alias j_2='ssh joshi@149.165.157.24'
+alias j_3='ssh joshi@149.165.156.240'
+alias xsede='ssh joshi@login.xsede.org'
+alias hjoshi='ssh -X -Y hjoshi@192.168.149.19'
+alias j22='ssh joshi@149.165.156.199'
+#export GMXLIB='/home/jejoong/work/SVN/gmxlib'
+alias chimera='/home/cmaffeo2/bin/chimera'
+alias g='gfortran'
+#module load  mpich/3.2.1-gcc7
+alias vi='vim'
+export PATH=/home/hjoshi/anaconda3/bin:/software/mpich-3.2.1-gcc7.2.0/bin:/software/gcc-7.2.0/bin:/data/server7/hjoshi/softwares/gromacs2016/bin:/data/server7/hjoshi/softwares/amber16/bin:/home/hjoshi/bin:/data/server5/cmaffeo2/texlive/2016/bin/x86_64-linux:/software/cuda-toolkit-8.0/bin:/software/mendeley-1.13.4-x86_64/mendeleydesktop-1.13.4-linux-x86_64/bin:/software/vmd-1.9.2-beta1/bin:/data/server7/hjoshi/amber16/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/home/cmaffeo2/anaconda2/bin
+alias sd='cd /data/server7/SD/re-PVCL-PDMS/3-10-3'
+alias p='python3'
+##PROJECTS
+
+alias p1='cd /data/server7/hjoshi/projects/lipid_dna/systems/pe/'
+alias p2='cd /data/server7/hjoshi/projects/stress/block_copolymer'
+alias p3='cd /data/server7/hjoshi/projects/bubble'
+alias p4='cd /data/server7/hjoshi/projects/origami'
+alias p5='cd /data/server7/hjoshi/projects/peptide_channels'
+alias p6='cd /data/server7/hjoshi/projects/bn_sheet'
+##alias tensortools='/data/server7/hjoshi/softwares/gromacs_ls2015/bin/tensortools'
+alias check='python /data/server7/wilsja/monitorgpus/checkgpus.py'
+export PYTHONPATH=~/python_lib:$PYTHONPATH
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+          . /usr/share/bash-completion/bash_completion
+            elif [ -f /etc/bash_completion ]; then
+                  . /etc/bash_completion
+                    fi
+                  fi
+alias f='ssh tg845280@login2.frontera.tacc.utexas.edu'
+## alias namd2 nice /home/wilsja/namd/NAMD_Git-2017-10-13_Linux-x86_64-multicore-CUDA/namd2 +idlepoll +p16 equil_min.namd > equil_min.log
+alias vmd='/Applications/VMD\ 1.9.4.app/Contents/MacOS/startup.command'
+PATH=/usr/local/texlive/2018/bin/x86_64-darwin:$PATH
+export PATH=/usr/local/texlive/2018/bin/x86_64-darwin:/home/hjoshi/anaconda3/bin:/software/mpich-3.2.1-gcc7.2.0/bin:/software/gcc-7.2.0/bin:/data/server7/hjoshi/softwares/gromacs2016/bin:/data/server7/hjoshi/softwares/amber16/bin:/home/hjoshi/bin:/data/server5/cmaffeo2/texlive/2016/bin/x86_64-linux:/software/cuda-toolkit-8.0/bin:/software/mendeley-1.13.4-x86_64/mendeleydesktop-1.13.4-linux-x86_64/bin:/software/vmd-1.9.2-beta1/bin:/data/server7/hjoshi/amber16/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/home/cmaffeo2/anaconda2/bin:/usr/local/grace/bin
+alias vmd='/Applications/VMD\ 1.9.4a55-arm64-Rev11.app/Contents/MacOS/startup.command'
+alias seva='ssh -X himanshu.bt.iith@paramseva.iith.ac.in -p 4422'
+alias an='ssh -X -Y himanshu@192.168.64.18'
+eval "$(/opt/homebrew/bin/brew shellenv)"
+alias hj='ssh himanshu@ 192.168.149.19'
+alias bhu='ssh anupamgupta.iith@paramshivay.iitbhu.ac.in -p 4422'
+alias p1="cd /Users/himanshu/projects/Li_channels/"
+alias pg="ssh himanshu@10.42.75.8"
+alias kgp="ssh 18cd92r01@paramshakti.iitkgp.ac.in -p 4422 "
+##conda create --name AmberTools22
+##conda activate AmberTools22
+###scp -P 4422 -o UserKnownHostsFile=/dev/null -r
+alias cwd='cd /Users/himanshu/projects/Li_channels/in_water/pmf/li'
+alias prathama='ssh himanshu@192.168.149.19'
+alias teach='cd /Users/himanshu/projects/teaching/bt2023_biostatistics'
+
+LS_COLORS=$LS_COLORS:'di=0;35:' ; export LS_COLORS
+alias tesla='ssh -X -Y hjoshi@192.168.149.31'
+alias deepa='ssh -X -Y deepa@192.168.149.67'
+alias kaveri='ssh -X -Y hjoshi@192.168.149.32'
