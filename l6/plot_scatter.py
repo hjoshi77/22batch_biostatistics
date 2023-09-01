@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib import colors
 from matplotlib.ticker import PercentFormatter
-mpl.rcParams["axes.labelsize"]=16
-mpl.rcParams["xtick.labelsize"]=16
-mpl.rcParams["ytick.labelsize"]=16
-mpl.rcParams["legend.fontsize"]=16
-mpl.rcParams['lines.linewidth'] = 2
+plt.rcParams["axes.labelsize"]=16
+plt.rcParams["xtick.labelsize"]=16
+plt.rcParams["ytick.labelsize"]=16
+plt.rcParams["legend.fontsize"]=16
+plt.rcParams['lines.linewidth'] = 2
 
-print("Setup Complete")
+print("Setup Copltete")
 insurance_filepath = "./insurance.csv"
 insurance_data = pd.read_csv(insurance_filepath)
 fig, ax = plt.subplots()
