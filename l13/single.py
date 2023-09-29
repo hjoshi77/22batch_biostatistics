@@ -37,7 +37,7 @@ sb.violinplot(data=n[:,1], width=1.0)
 labels = ["HES"]
 ax1.set_ylim(ymax= 23,ymin=5)
 #ax1.set_xlim(xmin=0,xmax=610)
-ax1.grid(linestyle="-",linewidth = 2 )
+ax1.grid(linestyle=":",linewidth = 1 )
 
 ax1.set_ylabel("Distance $\mathrm{d_b}$($\mathrm{\AA}$)",fontsize=12)
 plt.tight_layout()
