@@ -24,6 +24,7 @@ ind = data[data['Country_code'] == 'IN'][data.New_deaths > 100]['New_deaths']
 bin_usa=int(1394/((2*iqr(usa)/((1364)**(1/3)))))
 bin_ind=int(1394/((2*iqr(ind)/((1364)**(1/3)))))
 print(bin_usa)
+print(bin_ind)
 #bin_ind=int(1364/(2*iqr(ind)*((1364)**(1/3))))
 bin_usa=40
 bin_ind=40

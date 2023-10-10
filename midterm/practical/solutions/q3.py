@@ -10,14 +10,14 @@ from matplotlib import colors
 from matplotlib.ticker import PercentFormatter
 import statistics as stat
 
-f = open("a3.txt", "w") 
+##f = open("a3.txt", "w") 
 filepath = "./WHO-COVID-19-global-data.csv"
 data = pd.read_csv(filepath)
 usa = data[data['Country_code'] == 'US']['New_deaths']
 ind = data[data['Country_code'] == 'IN']['New_deaths']
 
-mod_usa_data=data[data['Country_code'] == 'US'] [data.New_deaths > 10]['New_deaths']
-mod_ind_data=data[data['Country_code'] == 'IN'] [data.New_deaths > 10]['New_deaths']
+mod_usa_data=data[data['Country_code'] == 'US'] [data.New_deaths > 0]['New_deaths']
+mod_ind_data=data[data['Country_code'] == 'IN'] [data.New_deaths > 0]['New_deaths']
 ##print (mod_usa_data)
 
 mean_usa=np.mean(usa)
@@ -46,4 +46,4 @@ print ("Mode", mod_ind)
 print ("Standard Deviation", std_ind)
 print ("IQR ", iqr_ind)
 
-file1.close()
+#file1.close()

@@ -25,13 +25,13 @@ ind1_y = data[data['Country_code'] == 'IN']['Cumulative_cases']
 usa1_y = data[data['Country_code'] == 'US']['Cumulative_cases']
 
 
-fig, (ax1,ax2) = plt.subplots(1,2,figsize=(10,5),width_ratios=[10,9])
+fig, (ax1,ax2) = plt.subplots(1,2,figsize=(10,5))
 
 
-ax1.plot(ind_x,ind_y,color = "C0",lw=0.5)
-ax1.plot(usa_x,usa_y,color = "C1",lw=0.5)
+ax1.plot(ind_x,ind_y,color = "C0",lw=0.5,marker='o',markersize=7,mfc='white',markevery=20)
+ax1.plot(usa_x,usa_y,color = "C1",lw=0.5,marker='o',markersize=7,mfc='white',markevery=20)
 ax2.plot(ind_x,ind1_y,color = "C0",label="India")
-ax2.plot(usa_x,usa1_y,color = "C1",label="USA")
+ax2.plot(usa_x,usa1_y,color = "C1",label="USA",)
 leg=plt.legend(handlelength=0.8,fontsize=12,frameon=True)
 
 plt.subplots_adjust(wspace=0, hspace=0)

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-(fig,(ax1,ax2)) = plt.subplots(nrows=1,ncols=2,figsize=(18,6),width_ratios=[1, 2])
+(fig,(ax1,ax2)) = plt.subplots(nrows=1,ncols=2,figsize=(18,6))
 plt.rcParams["axes.labelsize"]=12
 plt.rcParams["xtick.labelsize"]=12
 plt.rcParams["ytick.labelsize"]=12
