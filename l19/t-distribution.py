@@ -22,8 +22,8 @@ def y(x):
 
 # Define the integration limits
 #a = -np.inf  # Lower limit (negative infinity)
-a=-12.71
-b=12.71
+a=-6.314
+b=6.314
 #b = np.inf   # Upper limit (positive infinity)
 # Perform the numerical integration
 x=np.linspace(-20,20,100)

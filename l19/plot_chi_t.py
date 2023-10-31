@@ -17,10 +17,10 @@ k1=   1 # Kcal/mol
 k2=   2 # Kcal/mol
 k3=   3 # Kcal/mol
 k4=   4 # Kcal/mol
-k5=   5 # Kcal/mol
+k5=   100 # Kcal/mol
 x_0 = 2   # Angstrom
 
-x = np.linspace(1, 100, 1000)
+x = np.linspace(1, 200, 1000)
 # Interatomic potential
 Y2=(((x)**((k2/2)-1))*np.exp(x*-0.5))/((2**(k2/2))*math.gamma(k2/2))
 Y1=(((x)**((k1/2)-1))*np.exp(x*-0.5))/((2**(k2/2))*math.gamma(k2/2))
