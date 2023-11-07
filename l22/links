@@ -1,0 +1,4 @@
+https://www.youtube.com/watch?v=zeJD6dqJ5lo
+https://www.youtube.com/watch?v=-XJe3s_BCKw
+
+ffmpeg -framerate 4 -i binomial%02d.0.png -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -pix_fmt yuv420p boinomial.mp4

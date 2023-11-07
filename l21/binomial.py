@@ -13,7 +13,7 @@ def factorial(n):
     return 1 if (n==1 or n==0) else n * factorial(n - 1)    
 n=50
 x=np.arange(n+1)
-p=0.6
+p=0.5
 y=((sp.factorial(n))/(sp.factorial(n-x)*sp.factorial(x))) * ((p)**(x)) * ((1-p)**(n-x))
 print (y)
 fig,ax = plt.subplots()
